@@ -28,12 +28,12 @@
   },
   "homepage": "https://github.com/manokovacs/json-schema-aopromise",
   "dependencies": {
-    "aopromise": "0.2.0",
     "bluebird": "^2.9.33",
     "json-schema-filter": "^0.1.4",
     "tv4": "^1.1.12"
   },
   "devDependencies": {
+    "aopromise": "0.3.0",
     "mocha": "^2.2.5",
     "should": "^7.0.1",
     "sinon": "^1.15.4"
