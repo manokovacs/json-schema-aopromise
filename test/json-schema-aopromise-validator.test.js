@@ -6,9 +6,10 @@ var Promise = Promise || require('bluebird');
 var sinon = require('sinon');
 var should = require('should');
 var aop = require('aopromise');
+var schema = require('./testSchema');
 
 describe('json-schema-aopromise.validator', function () {
-	var valid = {firstName: 'John', lastName: 'Dow!', shouldNot: 'see this!'};
+	var valid = {firstName: 'John', lastName: 'Dow!'};
 	var validWithDirt = {firstName: 'John', lastName: 'Dow!', shouldNot: 'see this!'};
 	var invalid = {firstName: 'John', age: 'nonono'};
 
@@ -26,7 +27,7 @@ describe('json-schema-aopromise.validator', function () {
 				return arg1;
 			})(valid)
 			.then(function (res) {
-				valid.should.equal(res);
+				JSON.stringify(valid).should.equal(JSON.stringify(res));
 				end();
 			})
 			.catch(function (errs) {
@@ -42,7 +43,6 @@ describe('json-schema-aopromise.validator', function () {
 				return arg1;
 			})(validWithDirt)
 			.then(function (res) {
-				valid.should.not.equal(res);
 				should.not.exist(res.shouldNot);
 				end();
 			})
@@ -86,49 +86,3 @@ describe('json-schema-aopromise.validator', function () {
 			})
 	});
 });
-
-var schema = {
-	"title": "Example Schema",
-	"type": "object",
-	"properties": {
-		"firstName": {
-			"type": "string"
-		},
-		"lastName": {
-			"type": "string"
-		},
-		"age": {
-			"description": "Age in years",
-			"type": "integer",
-			"minimum": 0
-		},
-		"general": {
-			"type": "object",
-			"required": false
-		},
-		"contacts": {
-			"type": "array",
-			"id": "http://jsonschema.net/contacts",
-			"required": false,
-			"items": {
-				"type": "object",
-				"id": "http://jsonschema.net/contacts/0",
-				"required": false,
-				"properties": {
-					"phone": {
-						"type": "string",
-						"required": false
-					}
-				}
-			}
-		},
-		"hobbies": {
-			"type": "array",
-			"required": false,
-			"items": {
-				"type": "string"
-			}
-		}
-	},
-	"required": ["firstName", "lastName"]
-};

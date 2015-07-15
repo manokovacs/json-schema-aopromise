@@ -4,6 +4,7 @@ var JsonSchemaResultFilterAspect = require('../lib/JsonSchemaResultFilterAspect'
 var Promise = Promise || require('bluebird');
 var sinon = require('sinon');
 var should = require('should');
+var schema = require('./testSchema');
 
 describe('JsonSchemaResultFilterAspect', function () {
 	var valid = {firstName: 'John', lastName: 'Dow!', shouldNot: 'see this!'};
@@ -25,49 +26,3 @@ describe('JsonSchemaResultFilterAspect', function () {
 	});
 
 });
-
-var schema = {
-	"title": "Example Schema",
-	"type": "object",
-	"properties": {
-		"firstName": {
-			"type": "string"
-		},
-		"lastName": {
-			"type": "string"
-		},
-		"age": {
-			"description": "Age in years",
-			"type": "integer",
-			"minimum": 0
-		},
-		"general": {
-			"type": "object",
-			"required": false
-		},
-		"contacts": {
-			"type": "array",
-			"id": "http://jsonschema.net/contacts",
-			"required": false,
-			"items": {
-				"type": "object",
-				"id": "http://jsonschema.net/contacts/0",
-				"required": false,
-				"properties": {
-					"phone": {
-						"type": "string",
-						"required": false
-					}
-				}
-			}
-		},
-		"hobbies": {
-			"type": "array",
-			"required": false,
-			"items": {
-				"type": "string"
-			}
-		}
-	},
-	"required": ["firstName", "lastName"]
-};

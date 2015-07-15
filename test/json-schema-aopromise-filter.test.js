@@ -6,8 +6,9 @@ var Promise = Promise || require('bluebird');
 var sinon = require('sinon');
 var should = require('should');
 var aop = require('aopromise');
+var schema = require('./testSchema');
 
-describe.only('json-schema-aopromise.filter', function () {
+describe('json-schema-aopromise.filter', function () {
 	var valid = {firstName: 'John', lastName: 'Dow!', shouldNot: 'see this!'};
 	var validWithDirt = {firstName: 'John', lastName: 'Dow!', shouldNot: 'see this!'};
 	var invalid = {firstName: 'John', age: 'nonono'};
@@ -35,7 +36,7 @@ describe.only('json-schema-aopromise.filter', function () {
 			});
 	});
 
-	it.only('should be invalid with invalid result and validate setting', function (end) {
+	it('should be invalid with invalid result and validate setting', function (end) {
 		aop()
 			.filter(schema, {validate: true})
 			.fn(function () {
@@ -51,49 +52,3 @@ describe.only('json-schema-aopromise.filter', function () {
 	});
 
 });
-
-var schema = {
-	"title": "Example Schema",
-	"type": "object",
-	"properties": {
-		"firstName": {
-			"type": "string"
-		},
-		"lastName": {
-			"type": "string"
-		},
-		"age": {
-			"description": "Age in years",
-			"type": "integer",
-			"minimum": 0
-		},
-		"general": {
-			"type": "object",
-			"required": false
-		},
-		"contacts": {
-			"type": "array",
-			"id": "http://jsonschema.net/contacts",
-			"required": false,
-			"items": {
-				"type": "object",
-				"id": "http://jsonschema.net/contacts/0",
-				"required": false,
-				"properties": {
-					"phone": {
-						"type": "string",
-						"required": false
-					}
-				}
-			}
-		},
-		"hobbies": {
-			"type": "array",
-			"required": false,
-			"items": {
-				"type": "string"
-			}
-		}
-	},
-	"required": ["firstName", "lastName"]
-};

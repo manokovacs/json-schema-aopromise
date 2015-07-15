@@ -4,6 +4,7 @@ var JsonSchemaValidatorAspect = require('../lib/JsonSchemaValidatorAspect');
 var Promise = Promise || require('bluebird');
 var sinon = require('sinon');
 var should = require('should');
+var schema = require('./testSchema');
 
 describe('JsonSchemaValidatorAspect', function () {
 	var valid = {firstName: 'John', lastName: 'Dow!', shouldNot: 'see this!'};
@@ -25,9 +26,9 @@ describe('JsonSchemaValidatorAspect', function () {
 		new JsonSchemaValidatorAspect(schema)
 			.pre({args: [validWithDirt]})
 			.then(function (res) {
-				res.should.have.property('newArguments');
-				should.exist(res.newArguments[0]);
-				should.not.exist(res.newArguments[0].shouldNot);
+				res.should.have.property('newArgs');
+				should.exist(res.newArgs[0]);
+				should.not.exist(res.newArgs[0].shouldNot);
 				end();
 			})
 			.catch(function (errs) {
@@ -39,7 +40,7 @@ describe('JsonSchemaValidatorAspect', function () {
 		new JsonSchemaValidatorAspect(schema, {filter: false})
 			.pre({args: [validWithDirt]})
 			.then(function (res) {
-				res.should.not.have.property('newArguments');
+				res.should.not.have.property('newArgs');
 				end();
 			})
 			.catch(function (errs) {
@@ -69,49 +70,3 @@ describe('JsonSchemaValidatorAspect', function () {
 			})
 	});
 });
-
-var schema = {
-	"title": "Example Schema",
-	"type": "object",
-	"properties": {
-		"firstName": {
-			"type": "string"
-		},
-		"lastName": {
-			"type": "string"
-		},
-		"age": {
-			"description": "Age in years",
-			"type": "integer",
-			"minimum": 0
-		},
-		"general": {
-			"type": "object",
-			"required": false
-		},
-		"contacts": {
-			"type": "array",
-			"id": "http://jsonschema.net/contacts",
-			"required": false,
-			"items": {
-				"type": "object",
-				"id": "http://jsonschema.net/contacts/0",
-				"required": false,
-				"properties": {
-					"phone": {
-						"type": "string",
-						"required": false
-					}
-				}
-			}
-		},
-		"hobbies": {
-			"type": "array",
-			"required": false,
-			"items": {
-				"type": "string"
-			}
-		}
-	},
-	"required": ["firstName", "lastName"]
-};
