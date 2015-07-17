@@ -3,8 +3,10 @@
 
 var aop = require('aopromise');
 aop.register('validated', require('../lib/json-schema-aopromise').Validator);
+aop.register('filtered', require('../lib/json-schema-aopromise').Filter);
 
 var userSchema = getUserSchema();
+var limitedUserSchema = getLimitedUserSchema();
 var credentialSchema = getCredentialSchema();
 
 var userService = {};
@@ -21,6 +23,16 @@ userService.saveWithCredentials = aop()
 		// some more magic
 	});
 
+userService.get = aop()
+	.filtered(limitedUserSchema)
+	.fn(function (id) {
+		return {
+			"id": id,
+			"name": "Joe",
+			"email": "secret@email.com" // this should be filtered out
+		}
+	});
+
 userService.save({
 	"name": "John Doe",
 	"gender": "male"
@@ -32,7 +44,7 @@ userService.save({
 	});
 })
 	.then(function () {
-		userService.save({
+		return userService.save({
 			"id": "invalidId", // not a number
 			"name": "John Doe",
 			"gender": "DUCK!" // not in enum
@@ -43,7 +55,13 @@ userService.save({
 				return console.error(e.message)
 			}); // will be called
 		});
+	})
+	.then(function () {
+		return userService.get(123).then(function(user){
+			console.log(user);
+		});
 	});
+
 
 function getUserSchema() {
 	return {
@@ -56,6 +74,9 @@ function getUserSchema() {
 			"name": {
 				"type": "string"
 			},
+			"email": {
+				"type": "string"
+			},
 			"gender": {
 				"type": "string",
 				enum: ['male', 'female']
@@ -64,6 +85,12 @@ function getUserSchema() {
 		},
 		"required": ["name"]
 	};
+}
+
+function getLimitedUserSchema() {
+	var userSchema = getUserSchema(); // implementation above
+	delete userSchema.properties.email;
+	return userSchema;
 }
 
 function getCredentialSchema() {

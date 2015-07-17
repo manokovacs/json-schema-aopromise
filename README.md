@@ -43,6 +43,9 @@ function getUserSchema() {
 			"name": {
 				"type": "string"
 			},
+            "email": {
+                "type": "string"
+            },
 			"gender": {
 				"type": "string",
 				enum: ['male', 'female']
@@ -52,4 +55,42 @@ function getUserSchema() {
 		"required": ["name"]
 	};
 }
+```
+
+### Result filter
+You may want to filter your function output. An example is when you have users stored in the database and only
+a limited set of properties are public for the users of your API, for example skip the password hash. 
+In this case you may want to have a limited schema with the public fields of the user and filter the output of the result
+with that.
+```javascript
+var aop = require('aopromise');
+aop.register('filtered', require('../lib/json-schema-aopromise').Filter);
+
+
+userService.get = aop()
+	.filtered(getLimitedUserSchema())
+	.fn(function (id) {
+		return {
+			"id": id,
+			"name": "Joe",
+			"email": "secret@email.com" // this should be filtered out
+		}
+	});
+	
+	
+userService.get(123).then(function(user){
+    console.log(user);
+    // outputs user without email: 
+    // { id: 123, name: 'Joe' }
+});
+	
+	
+
+
+function getLimitedUserSchema() {
+	var userSchema = getUserSchema(); // using user schema implementation above
+	delete userSchema.properties.email;
+	return userSchema;
+}
+
 ```

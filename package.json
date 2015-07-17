@@ -1,6 +1,6 @@
 {
   "name": "json-schema-aopromise",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "JSON Schema validator aspect for Aopromise aspect oriented programming toolkit",
   "main": "lib/json-schema-aopromise.js",
   "scripts": {

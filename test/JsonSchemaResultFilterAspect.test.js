@@ -17,6 +17,8 @@ describe('JsonSchemaResultFilterAspect', function () {
 			.post({result: validWithDirt})
 			.then(function (res) {
 				res.should.have.property('newResult');
+				should.exist(res.newResult.firstName);
+				should.exist(res.newResult.lastName);
 				should.not.exist(res.newResult.shouldNot);
 				end();
 			})
