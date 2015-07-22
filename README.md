@@ -57,6 +57,13 @@ function getUserSchema() {
 }
 ```
 
+#### Options for validator
+```javascript
+{
+    filter: [true|false] // Whether to filter out properties that are no specified on the schema. Default true.
+}
+```
+
 ### Result filter
 You may want to filter your function output. An example is when you have users stored in the database and only
 a limited set of properties are public for the users of your API, for example skip the password hash. 
@@ -93,4 +100,11 @@ function getLimitedUserSchema() {
 	return userSchema;
 }
 
+```
+
+#### Options for result filter
+```javascript
+{
+    validate: [true|false] // Whether to validate the result against the schema. Default false.
+}
 ```
