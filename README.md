@@ -122,3 +122,18 @@ userService.save({
 }).catch(function(err){ // others
  // ...
 })
+```
+### Change log
+
+#### 0.3
+BREAKING CHANGE: thrown error is not an array anymore. Error array is now available in the errors validationErrors property.
+```javascript
+// THIS IS NOT WORKING ANYMORE
+userService.save(...).catch(ValidationError, function (err) { 
+   err.forEach(...);
+})
+// WORKS
+userService.save(...).catch(ValidationError, function (err) { 
+   err.validationErrors.forEach(...);
+})
+```
