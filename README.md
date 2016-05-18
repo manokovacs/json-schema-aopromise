@@ -23,10 +23,8 @@ userService.save({
     "id": "invalidId", // not a number
     "name": "John Doe",
     "gender": "DUCK!" // not in enum
-}).catch(function (errs) { // will fail, so
-    errs.forEach(function (e) {
-        return console.error(e.message)
-    });
+}).catch(function (e) { // will fail, so
+   return console.error(e.message, e.explanation)
 });
 
 
@@ -108,3 +106,19 @@ function getLimitedUserSchema() {
     validate: [true|false] // Whether to validate the result against the schema. If true, the promise will be rather rejected if the result does not match the schema. Default false.
 }
 ```
+
+### Error handling
+The library exposes a typed validation error that can be catched with bluebird promises:
+```javascript
+var ValidationError = require('json-schema-aopromise').ValidationError;
+userService.save({
+    "id": "invalidId", // not a number
+    "name": "John Doe",
+    "gender": "DUCK!" // not in enum
+}).catch(ValidationError, function (err) { // will fail, so
+   console.error(err.message); // outputs "Validation of arguments failed."
+   console.error(err.explanation); // outputs: /id: Invalid type: string (expected integer) 
+                                   //          /gender: No enum match for: "DUCK!"
+}).catch(function(err){ // others
+ // ...
+})

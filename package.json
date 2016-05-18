@@ -1,6 +1,6 @@
 {
   "name": "json-schema-aopromise",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "JSON Schema validator aspect for Aopromise aspect oriented programming toolkit",
   "main": "lib/json-schema-aopromise.js",
   "scripts": {
@@ -29,6 +29,7 @@
   "homepage": "https://github.com/manokovacs/json-schema-aopromise",
   "dependencies": {
     "bluebird": "^3.4.0",
+    "errors": "^0.3.0",
     "json-schema-filter": "^0.1.4",
     "tv4": "^1.1.12"
   },

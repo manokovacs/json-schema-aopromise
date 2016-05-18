@@ -2,6 +2,7 @@
 
 var JsonSchemaValidatorAspect = require('../lib/JsonSchemaValidatorAspect');
 var JsonSchemaResultFilterAspect = require('../lib/JsonSchemaResultFilterAspect');
+var ValidationError = require('../lib/ValidationError');
 var Promise = Promise || require('bluebird');
 var sinon = require('sinon');
 var should = require('should');
@@ -45,10 +46,11 @@ describe('json-schema-aopromise.filter', function () {
 			.then(function (res) {
 				end(new Error('should not be valid'))
 			})
-			.catch(function (errs) {
-				should(errs.length >= 2).be.true();
+			.catch(ValidationError, function (errs) {
+				should(errs.validationErrors.length >= 2).be.true();
 				end();
-			});
+			})
+			.catch(end);
 	});
 
 });

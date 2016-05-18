@@ -50,10 +50,9 @@ userService.save({
 			"gender": "DUCK!" // not in enum
 		}).then(function () {
 			console.log('Valid');
-		}).catch(function (errs) {
-			errs.forEach(function (e) {
-				return console.error(e.message)
-			}); // will be called
+		}).catch(function (err) {
+			console.error(err.explanation); // outputs: /id: Invalid type: string (expected integer)
+											//          /gender: No enum match for: "DUCK!"
 		});
 	})
 	.then(function () {
