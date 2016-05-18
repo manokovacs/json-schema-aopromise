@@ -1,10 +1,10 @@
 {
   "name": "json-schema-aopromise",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "JSON Schema validator aspect for Aopromise aspect oriented programming toolkit",
   "main": "lib/json-schema-aopromise.js",
   "scripts": {
-    "test": "test/test.js"
+    "test": "./node_modules/mocha/bin/mocha"
   },
   "repository": {
     "type": "git",
@@ -28,14 +28,14 @@
   },
   "homepage": "https://github.com/manokovacs/json-schema-aopromise",
   "dependencies": {
-    "bluebird": "^2.9.33",
+    "bluebird": "^3.4.0",
     "json-schema-filter": "^0.1.4",
     "tv4": "^1.1.12"
   },
   "devDependencies": {
     "aopromise": "0.3.1",
-    "mocha": "^2.2.5",
-    "should": "^7.0.1",
-    "sinon": "^1.15.4"
+    "mocha": "^2.4.5",
+    "should": "^8.3.1",
+    "sinon": "^1.17.4"
   }
 }

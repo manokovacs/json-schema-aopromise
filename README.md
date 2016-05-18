@@ -60,7 +60,7 @@ function getUserSchema() {
 #### Options for validator
 ```javascript
 {
-    filter: [true|false] // Whether to filter out properties that are no specified on the schema. Default true.
+    filter: [true|false] // Whether to filter out properties that are no specified on the schema. The default uses additionalProperties as switch of the feature.
 }
 ```
 
@@ -105,6 +105,6 @@ function getLimitedUserSchema() {
 #### Options for result filter
 ```javascript
 {
-    validate: [true|false] // Whether to validate the result against the schema. Default false.
+    validate: [true|false] // Whether to validate the result against the schema. If true, the promise will be rather rejected if the result does not match the schema. Default false.
 }
 ```

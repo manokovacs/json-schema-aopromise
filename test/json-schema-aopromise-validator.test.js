@@ -52,6 +52,24 @@ describe('json-schema-aopromise.validator', function () {
 
 	});
 
+	it('should not filter unmatched field if schema additonalProperties=true was set', function (end) {
+		var schemaWithAdditionalProperties = Object.assign({additionalProperties: true}, schema);
+		aop()
+			.validated(schemaWithAdditionalProperties)
+			.fn(function(arg1) {
+				should.exist(arg1.shouldNot);
+				return arg1;
+			})(validWithDirt)
+			.then(function (res) {
+				should.exist(res.shouldNot);
+				end();
+			})
+			.catch(function (errs) {
+				end(errs);
+			});
+
+	});
+
 	it('should not filter unmatched field if option.filter=false added', function (end) {
 		new JsonSchemaValidatorAspect(schema, {filter: false})
 			.pre({args: [validWithDirt]})
